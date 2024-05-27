@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <noscript>
+      <h1>Not Found</h1>
+      <p>There is nothing to see here.</p>
+      <p>However, if you see something like "/arx/https/" in the URL, you might get to an actual page if you delete that part and everything before it.</p>
+      <p>You have to go through this rigamarole because you have JavaScript turned off. Blame Ben Christel for this.</p>
+    </noscript>
+    <script>
+      const isRedirect = window.location.pathname.indexOf("/arx/") === 0;
+
+      if (isRedirect) {
+        const redirectMessage = document.createElement("p");
+        redirectMessage.innerText = "You are being redirected...";
+        document.body.appendChild(redirectMessage);
+
+        const redirectPath = window.location.pathname
+          .slice("/arx/".length)
+          .replace(/^(https?)\//, "$1://");
+        window.location = redirectPath + window.location.search + window.location.hash;
+      } else {
+        document.body.innerHTML = `
+          <h1>Not Found</h1>
+          <p>Nothing to see here. <a href="javascript:window.history.back()">Whence you came!</a></p>
+        `
+      }
+    </script>
+  </body>
+</html>
